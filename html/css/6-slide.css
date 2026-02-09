@@ -1,0 +1,63 @@
+.cybersecurity-of-software-systems {
+    /* Отключаем наследование flex-центрирования */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    text-align: left; /* Текст слева */
+}
+.header-content__slide .cybersecurity-of-software-systems-info{
+    padding: 40px 0 0 0;
+}
+
+.cybersecurity-of-software-systems-info {
+    display: flex;
+    justify-content: space-between;
+    gap: 50px;
+}
+
+.cybersecurity-of-software-systems-desc{
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+
+}
+.program-header{
+    display:flex;
+    flex-direction: column;
+    gap:10px;
+}
+.program-details{
+    display: flex;
+    flex-direction: column;
+    gap:5px
+}
+.program-profile {
+    font-size: 25px;
+}
+
+.program-qualification {
+    font-size: 18px;
+}
+.program-duration{
+    font-size: 18px
+}
+
+.fitcha {
+    max-width: 700px;
+}
+.fitcha p {
+    font-size: 20px
+}
+.program-description {
+    max-height: ;
+    position: relative;
+}
+ .program-description img {
+    width: 90%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.5s ease;
+    border-radius: 10px;
+ }

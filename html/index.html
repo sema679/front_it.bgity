@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+
+	<script src="libs/btn/anim-menu-btn.min.js" defer></script>
+	<link rel="stylesheet" href="libs/swiper/swiper-bundle.min.css">
+	<script src="libs/swiper/swiper-bundle.min.js" defer></script>
+
+	<link rel="stylesheet" href="css/main.css">
+	<script src="js/app.js" defer></script>
+
+	<script>
+	const STRAPI_URL = 'http://localhost:1337';
+	
+	async function loadStrapiContent() {
+		try {
+			const response = await fetch(`${STRAPI_URL}/api/mainpages`);
+			const result = await response.json();
+			
+			if (!result.data || !Array.isArray(result.data) || result.data.length === 0) {
+				return;
+			}
+			
+			const firstRecord = result.data[0];
+			const content = firstRecord.attributes || firstRecord;
+			
+			if (content.main_title) {
+				const element = document.getElementById('main-title');
+				if (element) {
+					element.textContent = content.main_title;
+				}
+			}
+			
+			if (content.main_subtitle) {
+				const element = document.getElementById('main-subtitle');
+				if (element) {
+					let text = content.main_subtitle;
+					text = text.replace('ДУЧШАЯ', 'ЛУЧШАЯ');
+					element.textContent = text;
+				}
+			}
+			
+			if (content.achievements_title) {
+				const element = document.getElementById('achievements-title');
+				if (element) {
+					element.textContent = content.achievements_title;
+				}
+			}
+			
+			if (content.fitcha_text) {
+				const element = document.getElementById('fitcha-text');
+				if (element) {
+					element.textContent = content.fitcha_text;
+				}
+			}
+			
+			const achievementsContainer = document.getElementById('achievements-container');
+			if (achievementsContainer) {
+				const achievements = [];
+				
+				for (let i = 2; i <= 8; i++) {
+					const icon = content[`achievement1_icon${i}`];
+					const place = content[`achievement1_place${i-1}`];
+					const name = content[`achievement1_name${i-1}`];
+					
+					if (icon || place || name) {
+						achievements.push({
+							icon: icon || '🏆',
+							place: place || 'Место',
+							name: name || 'Соревнование'
+						});
+					}
+				}
+				
+				if (achievements.length > 0) {
+					achievementsContainer.innerHTML = '';
+					
+					achievements.forEach((achievement) => {
+						const slideHTML = `
+							<div class="swiper-slide">
+								<div class="inner-slide-content">
+									<div class="place">
+										<h3>${achievement.icon}</h3>
+										<p class="place-text">${achievement.place}</p>
+									</div>
+									<p class="competition-name">${achievement.name}</p>
+								</div>
+							</div>
+						`;
+						achievementsContainer.innerHTML += slideHTML;
+					});
+					
+					if (typeof Swiper !== 'undefined' && window.fspSwiper) {
+						setTimeout(() => {
+							window.fspSwiper.update();
+						}, 100);
+					}
+				}
+			}
+			
+		} catch (error) {
+			console.error('Ошибка загрузки контента:', error);
+		}
+	}
+	
+	document.addEventListener('DOMContentLoaded', loadStrapiContent);
+</script>
+	
+
+</head>
+<body>
+	<div class="swiper slider">
+
+		<div class="slider-ui">
+
+			<div class="container header-wrapper">
+
+				<div class="top-line">
+
+					<div class="row">
+
+						<div class="col col--center">
+							<a href="#" class="logo">
+								<img src="img/logo_IT.png" alt="Grow">
+							</a>
+						</div>
+
+						<div class="col col--center col--right col--lead">
+							<nav class="main-menu">
+										<ul>
+											<li><a href="#">Учебная программа </a>
+												<ul>
+													<li><a href="#">Направления подготовки</a></li>
+													<li><a href="#">Базовый блок дисциплин</a></li>
+													<li><a href="#">Учебный план</a></li>
+												</ul>
+											</li>
+											<li><a href="#">Карьера и индустрия</a>
+												<ul>
+													<li><a href="#">Карьерный трек</a></li>
+													<li><a href="#">Фичи направлений</a></li>
+													<li><a href="#">Преподаватели</a></li>
+												</ul>
+											</li>
+											<li><a href="#">Инфраструктура и абитуриенты</a>
+												<ul>
+													<li><a href="#">Кафедра IT</a></li>
+													<li><a href="#">Стипендии</a></li>
+													<li><a href="#">Абитуриенту</a></li>
+													<li><a href="#">Фотогалерея</a></li>
+												</ul>
+											</li>
+										</ul>
+									</nav>
+							<a href="#" class="button button--top">Подробнее</a>
+						</div>
+
+						<div class="col col--center disp">
+							<button class="submenu anim-menu-btn">
+								<i class="anim-menu-btn__icon anim-menu-btn__icon--close"></i>
+							</button>
+						</div>
+
+					</div>
+
+				</div>
+
+				<div class="header-content">
+
+					<div class="header-content__slide active">
+						<h1 class="letters" id="">БГИТУ</h1>
+						<div class="header-content__info">
+							<p class="hero-text" id="main-subtitle">ЛУЧШАЯ IT ПОДГОТОВКА В БРЯНСКОЙ ОБЛАСТИ</p><br>
+							<button class="button button--main" id="main-button">Узнать подробнее</button>
+						</div>
+					</div>
+
+					<div class="header-content__slide fsp-slide">
+						<h2 class="letters">Федерация спортивного программирования</h2>
+						<div class="header-content__info fsp-slide">
+							<div class="fsp-info">
+								<p class="fsp-desc">Почему мы лучшая ИТ подготовка в Брянской области?</p>
+								<p class="fsp-desc">&mdash; Сборная Брянской области по спортивному программированию состоит из обучающихся бакалавриата и магистратуры БГИТУ</p>
+							</div>
+							
+
+							<div class='achievement'>
+								<h2 class="letters" id="achievements-title">Достижения</h2>
+								<div class="fsp-slider">
+									<div class="fsp-swiper swiper">
+										<div class="swiper-wrapper" id="achievements-container">
+											<div class="swiper-slide">
+												<div class="inner-slide-content">
+													<div class="place">
+														<h3>🥈</h3>
+														<p class="place-text">II место</p>
+													</div>
+													<p class="competition-name">Первенство России по спортивному программированию, г. Москва 2025 г.</p>
+												</div>
+											</div>
+											<div class="swiper-slide">
+												<div class="inner-slide-content">
+													<div class="place">
+														<h3>🥈</h3>
+														<p class="place-text">II место</p>
+													</div>
+													<p class="competition-name">Первенство России по спортивному программированию, г. Москва 2024 г.</p>
+												</div>
+											</div>
+											<div class="swiper-slide">
+												<div class="inner-slide-content">
+													<div class="place">
+														<h3>🥉</h3>
+														<p class="place-text">III место</p>
+													</div>
+													<p class="competition-name">Чемпионат России по спортивному программированию, г. Москва 2024 г.</p>
+												</div>
+											</div>
+											<div class="swiper-slide">
+												<div class="inner-slide-content">
+													<div class="place">
+														<h3>🥉</h3>
+														<p class="place-text">III место</p>
+													</div>
+													<p class="competition-name">Международные соревнования по Искусственному интеллекту, г. Москва 2024 г.</p>
+												</div>
+											</div>
+											<div class="swiper-slide">
+												<div class="inner-slide-content">
+													<div class="place">
+														<h3>🥈</h3>
+														<p class="place-text">II место</p>
+													</div>
+													<p class="competition-name">Всероссийские студенческие соревнования по спортивному программированию, г. Калуга 2024 г.</p>
+												</div>
+											</div>
+											<div class="swiper-slide">
+												<div class="inner-slide-content">
+													<div class="place">
+														<h3>🏅</h3>
+														<p class="place-text">VI место</p>
+													</div>
+													<p class="competition-name">Международный фестиваль по спортивному программированию «Код Мира» г. Севастополь 2024 г.</p>
+												</div>
+											</div>
+											<div class="swiper-slide">
+												<div class="inner-slide-content">
+													<div class="place">
+														<h3>🏅</h3>
+														<p class="place-text">VII место</p>
+													</div>
+													<p class="competition-name">Международный фестиваля по спортивному программированию «Код Мира» г. Грозный 2023 г.</p>
+												</div>
+											</div>
+														
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+							
+
+					<div class="header-content__slide students-achievement-slide">
+                    <h2 class="letters">Наши студенты являются победителями и участниками конкурсных проектов</h2>
+                    <div class="header-content__info students-achievement-info">
+                        
+                        <div class='students-achievement'>
+                            <div class="students-achievements-slider">
+                                <div class="students-achievements-swiper swiper">
+                                    <div class="swiper-wrapper">
+                                        <div class="swiper-slide">
+											<div class="students-inner-slide-content horizontal-layout">
+												<div class="slide-image-container">
+													<img src="img/3-slide/nikita.jpg" alt="Проект студента">
+												</div>
+												<div class="slide-description-side">
+													<p class="project-desc">В тройке сильнейших в номинации «Программист» Российской национальной премии «Студент года. IT» и представляющий БГИТУ на Всемирном фестивале Молодежи-2024 в Сочи!</p>
+													
+													<div class="project-details">
+														<div class="detail-item">
+															<p class="detail-label">Студент:</p>
+															<p class="detail-value">Никита Шидловский</p>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="swiper-slide">
+											<div class="students-inner-slide-content horizontal-layout">
+												<div class="slide-image-container">
+													<img src="img/3-slide/Sport_progr_1.jpg" alt="Проект студента">
+												</div>
+												<div class="slide-description-side">
+													<p class="project-desc">Призеры и финалисты всероссийских и международных соревнований, включая Чемпионат и Первенство России по спортивному программированию, а также Международный фестиваль «Код Мира».</p>
+												</div>
+											</div>
+										</div>
+										<div class="swiper-slide">
+											<div class="students-inner-slide-content horizontal-layout">
+												<div class="slide-image-container">
+													<img src="img/3-slide/nikita-ros-molodez.jpg" alt="Проект студента">
+												</div>
+												<div class="slide-description-side">
+													<p class="project-desc">Участники программ и грантовых конкурсов Министерства науки и высшего образования РФ, Министерства просвещения РФ, Федерального агентства по делам молодёжи (Росмолодёжь. Гранты) и др.</p>
+												</div>
+											</div>
+										</div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+				<div class="header-content__slide it-practice-slide">
+				<h2 class="letters">Практика в ИТ-компаниях и трудоустройство студентов в период обучения в вузе</h2>
+				<div class="header-content__info it-practice-info">
+					<div class="it-practice-desc">
+						<p class="practice-desc">Студенты проходят практику в ведущих ИТ-компаниях региона, получая реальный опыт работы над коммерческими проектами под руководством опытных наставников.</p>
+					</div>
+					<div class='it-practice'>
+						<div class="it-practice-slider">
+							<div class="it-practice-swiper swiper">
+								<div class="swiper-wrapper">
+									<div class="swiper-slide">
+										<div class="student-card">
+											<div class="student-image">
+												<img src="img/4-slide/avdeenko-eliz.jpg" alt="Авдеенко Елизавета">
+											</div>
+											<div class="student-info">
+												<h3 class="student-name">Авдеенко Елизавета</h3>
+												<p class="student-group">ИВТ 401</p>
+												<p class="student-role">Frontend-разработчик</p>
+											</div>
+										</div>
+									</div>
+									
+									<div class="swiper-slide">
+										<div class="student-card">
+											<div class="student-image">
+												<img src="img/4-slide/bezzubenko-maria.jpg" alt="Беззубенко Мария">
+											</div>
+											<div class="student-info">
+												<h3 class="student-name">Беззубенко Мария</h3>
+												<p class="student-group">ИСТмаг 201</p>
+												<p class="student-role">Backend-разработчик</p>
+											</div>
+										</div>
+									</div>
+									
+									<div class="swiper-slide">
+										<div class="student-card">
+											<div class="student-image">
+												<img src="img/4-slide/bondarenko-sergey.jpg" alt="Бондаренко Сергей">
+											</div>
+											<div class="student-info">
+												<h3 class="student-name">Бондаренко Сергей</h3>
+												<p class="student-group">ИСТмаг 201</p>
+												<p class="student-role">Backend-разработчик</p>
+											</div>
+										</div>
+									</div>
+									
+									<div class="swiper-slide">
+										<div class="student-card">
+											<div class="student-image">
+												<img src="img/4-slide/tolkachev-roman.jpg" alt="Толкачев Роман">
+											</div>
+											<div class="student-info">
+												<h3 class="student-name">Толкачев Роман</h3>
+												<p class="student-group">ИСТмаг 201</p>
+												<p class="student-role">Frontend-разработчик</p>
+											</div>
+										</div>
+									</div>
+
+									<div class="swiper-slide">
+										<div class="student-card">
+											<div class="student-image">
+												<img src="img/4-slide/murawko-dmitryi.jpg" alt="Дмитрий Мурашко">
+											</div>
+											<div class="student-info">
+												<h3 class="student-name">Дмитрий Мурашко</h3>
+												<p class="student-group">ИСТ 402</p>
+												<p class="student-role">Frontend-разработчик</p>
+											</div>
+										</div>
+									</div>
+
+									<div class="swiper-slide">
+										<div class="student-card">
+											<div class="student-image">
+												<img src="img/4-slide/paleev-egor.jpg" alt="Палеев Егор">
+											</div>
+											<div class="student-info">
+												<h3 class="student-name">Палеев Егор</h3>
+												<p class="student-group">ИВТ 401</p>
+												<p class="student-role">Backend-разработчик</p>
+											</div>
+										</div>
+									</div>
+
+									<div class="swiper-slide">
+										<div class="student-card">
+											<div class="student-image">
+												<img src="img/4-slide/riabcev-nikolay.jpg" alt="Рябцев Николай">
+											</div>
+											<div class="student-info">
+												<h3 class="student-name">Рябцев Николай</h3>
+												<p class="student-group">ИВТ 401</p>
+												<p class="student-role">Backend-разработчик</p>
+											</div>
+										</div>
+									</div>
+
+									<div class="swiper-slide">
+										<div class="student-card">
+											<div class="student-image">
+												<img src="img/slides/safronov-dima.jpg" alt="Сафронов Дмитрий">
+											</div>
+											<div class="student-info">
+												<h3 class="student-name">Сафронов Дмитрий</h3>
+												<p class="student-group">ПрИ 301</p>
+												<p class="student-role">Преподаватель IT</p>
+											</div>
+										</div>
+									</div>
+
+									<div class="swiper-slide">
+										<div class="student-card">
+											<div class="student-image">
+												<img src="img/4-slide/wliapkin-nikita.jpg" alt="Шляпкин Никита">
+											</div>
+											<div class="student-info">
+												<h3 class="student-name">Шляпкин Никита</h3>
+												<p class="student-group">ИВТ 301</p>
+												<p class="student-role">Преподаватель IT</p>
+											</div>
+										</div>
+									</div>
+								</div>
+								
+							
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+			<div class="header-content__slide basic-higher-education-slide">
+				<h2 class="letters">Базовое высшее образование</h2>
+				<div class="header-content__info basic-higher-education-info">
+					<div class="directions">
+						<p class="direction-name">☑ КИБЕРБЕЗОПАСНОСТЬ ПРОГРАММНЫХ КОМПЛЕКСОВ</p>
+						<p class="direction-name">☑ ИСКУССТВЕННЫЙ ИНТЕЛЛЕКТ</p>
+						<p class="direction-name">☑ АВТОМАТИЗИРОВАННОЕ ПРОЕКТИРОВАНИЕ РОБОТОТЕХНИЧЕСКИХ СИСТЕМ И ТЕХНОЛОГИЧЕСКИХ ПРОЦЕССОВ</p>
+						<p class="direction-name">☑ ИНФОРМАЦИОННЫЕ СИСТЕМЫ И ТЕХНОЛОГИИ</p>
+						<p class="direction-name">☑ ПРОГРАММНАЯ ИНЖЕНЕРИЯ</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="header-content__slide cybersecurity-of-software-systems">
+				<h2 class="letters">КИБЕРБЕЗОПАСНОСТЬ ПРОГРАММНЫХ КОМПЛЕКСОВ</h2>
+				<div class="header-content__info cybersecurity-of-software-systems-info">
+
+						<div class="cybersecurity-of-software-systems-desc">
+							<div class="program-header">
+								<h3 class="program-profile">ПРОФИЛЬ "КИБЕРБЕЗОПАСНОСТЬ ПРОГРАММНЫХ КОМПЛЕКСОВ"</h3>
+								<div class="program-details">
+									<p class="program-direction"><strong>направления подготовки</strong> 09.03.01 ИНФОРМАТИКА И ВЫЧИСЛИТЕЛЬНАЯ ТЕХНИКА</p>
+									<p class="program-qualification"><strong>Квалификация выпускника</strong> – бакалавр</p>
+									<p class="program-duration"><strong>Срок обучения по очной форме</strong> – 4 года</p>
+								</div>
+							</div>
+							<div class="program-description">
+								<img src="img/directions/BEZ-PROM-COMP.jpg" alt="">
+							</div>
+						</div>
+						<div class="fitcha">
+							<p id="fitcha-text">Образовательная программа "Кибербезопасность программных комплексов" в рамках направления 09.03.01 "Информатика и вычислительная техника" фокусируется на подготовке специалистов, способных защищать информационные системы и программные продукты от угроз и уязвимостей. В процессе обучения студенты изучают основы криптографии, сетевой безопасности, анализ рисков, а также методы защиты программного обеспечения, включая разработку безопасного кода и организацию безопасных архитектур.
+Особое внимание уделяется практическим занятиям, где студенты учатся симулировать кибератаки и разрабатывать меры по их предотвращению. Программа включает изучение актуальных технологий и инструментов, таких как фаерволы, системы обнаружения вторжений и антивирусное программное обеспечение, что позволяет выпускникам быть в курсе последних тенденций в области кибербезопасности.
+Выпускники могут занимать различные должности, такие как специалист по информационной безопасности, аналитик по киберугрозам, системный администратор по безопасности, аудитор по защите информации или консультант по кибербезопасности. Они востребованы в государственных учреждениях, финансовых организациях, IT-компаниях и других сферах, где необходима защита данных и информационных систем. Таким образом, программа способствует подготовке высококвалифицированных кадров, способных эффективно справляться с вызовами современного информационного общества.</p>
+						</div>
+					</div>
+			</div>
+
+
+
+
+									
+				</div>
+
+				<div class="header-bottom">
+					
+				</div>
+
+			</div>
+
+		</div>
+
+		<div class="swiper-wrapper">
+
+			<div class="swiper-slide slider__item">
+				<div class="slider__layer" data-swiper-parallax="35%" style="background-image: url(img/slides/thumb1-back.png);"></div>
+				<div class="slider__layer" data-swiper-parallax="20%" style="background-image: url(img/slides/thumb1-middle.png);"></div>
+				<div class="slider__layer" data-swiper-parallax="10%" style="background-image: url(img/slides/thumb1-front.png);"></div>
+			</div>
+			<div class="swiper-slide slider__item">
+				<div class="slider__layer" data-swiper-parallax="35%" style="background-image: url(img/slides/27230.jpg);"></div>
+			</div>
+			<div class="swiper-slide slider__item">
+				<div class="slider__layer" data-swiper-parallax="35%" style="background-image: url(img/slides/27230.jpg);"></div>
+			</div>
+			<div class="swiper-slide slider__item">
+				<div class="slider__layer" data-swiper-parallax="35%" style="background-image: url(img/slides/27230.jpg);"></div>
+			</div>
+			<div class="swiper-slide slider__item">
+				<div class="slider__layer" data-swiper-parallax="35%" style="background-image: url(img/slides/27230-bl.png);"></div>
+			</div>
+			<div class="swiper-slide slider__item">
+				<div class="slider__layer" data-swiper-parallax="35%" style="background-image: url(img/slides/27230-bl.png);"></div>
+			</div>
+
+
+	</div>
+	</div>
+
+
+</body>
+</html>

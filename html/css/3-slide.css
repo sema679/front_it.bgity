@@ -1,0 +1,78 @@
+.header-content__info{
+    padding:20px;
+}
+.students-achievement-slide {
+    /* Отключаем наследование flex-центрирования */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    text-align: left; /* Текст слева */
+}
+.students-achievement {
+	display: flex;
+	justify-content: center;
+}
+
+.students-achievements-slider {
+  width: 100%;
+  max-width: 1400px;
+  position: relative; 
+  /* Для абсолютного позиционирования кнопок */
+}
+
+/* Сам слайдер */
+.students-achievements-swiper {
+  width: 100%; /* 100% от .fsp-slider */
+  max-height: 550px;
+  height: 100%;
+  border-radius: 10px;
+  overflow: hidden; 
+  position: relative;
+
+}
+
+
+.students-inner-slide-content img{
+	width: 100%;
+    height: 100%;
+	border-radius: 10px;/* или cover */
+	object-fit: cover; /* Заполняет контейнер, обрезая лишнее */
+    object-position: center; /* Центрируем изображение */
+}
+
+.horizontal-layout {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    gap: 50px;
+    padding: 20px;
+	background: rgba(255, 255, 255, 0.03);
+	align-items: flex-start;
+}
+
+/* Контейнер для изображения (левая часть) */
+.slide-image-container {
+    flex: 1;
+    height: 100%;
+    display: flex;
+    border-radius: 10px;
+    padding: 0px;
+    overflow: hidden; /* Важно: скрываем выходящие за пределы части */
+    position: relative;
+}
+
+
+
+/* Описание (правая часть) */
+.slide-description-side {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 10px;
+    border-left: 3px solid var(--blue-color);
+	gap: 20px;
+}
