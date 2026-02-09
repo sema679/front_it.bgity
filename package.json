@@ -4,7 +4,7 @@
   "description": "BГИТУ University Website",
   "private": true,
   "scripts": {
-    "start": "npx serve -s . -p $PORT"
+    "start": "npx serve -s html -p $PORT"
   },
   "keywords": ["university", "it", "education"],
   "author": "BГИТУ",
