@@ -1,0 +1,20 @@
+{
+  "name": "bgitu-website",
+  "version": "1.0.0",
+  "description": "BГИТУ University Landing Page",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sema679/front_it.bgity.git"
+  },
+  "keywords": ["university", "education", "it"],
+  "author": "BГИТУ",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/daniil-cherniy9/bgitu-site/issues"
+  },
+  "homepage": "https://daniil-cherniy9.github.io/bgitu-site"
+}
