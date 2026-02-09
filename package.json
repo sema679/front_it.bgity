@@ -2,7 +2,7 @@
   "name": "bgitu-website",
   "version": "1.0.0",
   "description": "BГИТУ University Landing Page",
-  "main": "index.html",
+ 
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
